@@ -1,11 +1,11 @@
-version: '3.3'
+version: "3.3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181"
     hostname: zookeeper
-  kafka:     
+  kafka:
     image: wurstmeister/kafka
     command: [start-kafka.sh]
     ports:
@@ -19,27 +19,27 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INSIDE://:kafka:29092,OUTSIDE://kafka3855.westus2.cloudapp.azure.com:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-     volumes:
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-     depends_on:
+    depends_on:
       - "zookeeper"
   db:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: 'events'
+      MYSQL_DATABASE: "events"
       # so you don't have to use root, but you can if you like
-      MYSQL_USER: 'user'
+      MYSQL_USER: "user"
       # You can use whatever password you like
-      MYSQL_PASSWORD: 'password'
+      MYSQL_PASSWORD: "password"
       # Password for root access
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: "password"
     ports:
       # <port exposed> : <MYSQL Port running inside container>
-      - '3306:3306'
+      - "3306:3306"
     expose:
       # Opens port 3306 on the container
-      - '3306'
+      - "3306"
       # where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
